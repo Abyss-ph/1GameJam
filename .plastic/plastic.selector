@@ -1,0 +1,4 @@
+repository "Tst_gamajam/1GameJam@4674206210622@cloud"
+  path "/"
+    br "/main"
+    co "/main"
