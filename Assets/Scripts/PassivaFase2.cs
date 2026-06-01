@@ -4,7 +4,7 @@ using UnityEngine;
 public class PassivaFase2 : MonoBehaviour
 {
     [Header("Configurações da Passiva")]
-    public float chanceBase = 3.7f;
+    public float chanceBase = 0.09f;
     public float tempoDeChecagem = 10f;
     public float duracaoAtiva = 67f;
     public float danoNoModoDeus = 167f;
@@ -32,20 +32,27 @@ public class PassivaFase2 : MonoBehaviour
         {
             yield return new WaitForSeconds(tempoDeChecagem);
 
+            // Bônus de comeback: quanto menos vida, maior o bônus (máx +50%)
+            // Exemplo: 10% de vida restante → 90% de vida faltando → +45% de bônus
+            float percentualFaltando = 1f - (vidaPlayer.VidaAtual / vidaPlayer.vidaMaxima);
+            float bonusComeback = percentualFaltando * 50f;
+
+            float chanceTotal = chanceAtual + bonusComeback;
+
             // Tira um número de 0 a 100
             float rolagem = Random.Range(0f, 100f);
 
-            if (rolagem <= chanceAtual)
+            if (rolagem <= chanceTotal)
             {
                 // SUCESSO! Ativa o modo e espera ele acabar para continuar
                 yield return StartCoroutine(AtivarModoDeus());
-                chanceAtual = chanceBase; // Reseta a chance
+                chanceAtual = chanceBase; // Reseta a chance acumulada
             }
             else
             {
-                // FALHOU. Dobra a chance para a próxima vez
-                chanceAtual *= 2f;
-                Debug.Log("Passiva falhou. Nova chance: " + chanceAtual + "%");
+                // FALHOU. Soma 0.09 para a próxima checagem
+                chanceAtual += 0.09f;
+                Debug.Log($"Passiva falhou. Acumulada: {chanceAtual:F2}% | Bônus vida: +{bonusComeback:F2}% | Total na próxima: {chanceAtual + bonusComeback:F2}%");
             }
         }
     }

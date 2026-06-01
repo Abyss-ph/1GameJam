@@ -6,6 +6,7 @@ public class VidaPlayer : MonoBehaviour
     [Header("Atributos")]
     public float vidaMaxima = 100f;
     private float vidaAtual;
+    public float VidaAtual => vidaAtual; // Leitura para o sistema de comeback da PassivaFase2
 
     [Header("Mecânicas Especiais")]
     public bool isImortal = false; // Usado para a passiva
