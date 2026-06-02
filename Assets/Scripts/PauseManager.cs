@@ -1,47 +1,45 @@
 using UnityEngine;
-
+ 
 public class PauseManager : MonoBehaviour
 {
-    // Variável estática para sabermos em qualquer script se o jogo está pausado
     public static bool GameIsPaused = false;
-
+ 
     [Header("Elementos de UI")]
-    public GameObject pauseMenuUI; // O painel grande de pause
-    public GameObject pauseButton; // O botão físico de pausar que fica na tela
-
+    public GameObject pauseMenuUI;
+    public GameObject pauseButton;
+ 
     void Update()
     {
-        // Atalho opcional pelo teclado (ESC)
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
+            if (GameIsPaused) Resume();
+            else              Pause();
         }
     }
-
-    // Esta função será chamada pelo BOTÃO DE PAUSE da tela
+ 
     public void Pause()
     {
-        pauseMenuUI.SetActive(true);  // Mostra o painel grande de pause
-        pauseButton.SetActive(false); // FAZ O BOTÃO DE PAUSE DESAPARECER
-
-        Time.timeScale = 0f;          // Congela o tempo do jogo
-        GameIsPaused = true;
+        pauseMenuUI.SetActive(true);
+        pauseButton.SetActive(false);
+ 
+        Time.timeScale = 0f;
+        GameIsPaused   = true;
+ 
+        // Pausa a música junto com o jogo
+        if (SistemaMusica.Instance != null)
+            SistemaMusica.Instance.PausarMusica();
     }
-
-    // Esta função será chamada pelo seu NOVO BOTÃO DE DESPAUSAR (dentro do painel)
+ 
     public void Resume()
     {
-        pauseMenuUI.SetActive(false); // Esconde o painel grande de pause
-        pauseButton.SetActive(true);  // FAZ O BOTÃO DE PAUSE REAPARECER NA TELA
-
-        Time.timeScale = 1f;          // Volta o tempo ao normal
-        GameIsPaused = false;
+        pauseMenuUI.SetActive(false);
+        pauseButton.SetActive(true);
+ 
+        Time.timeScale = 1f;
+        GameIsPaused   = false;
+ 
+        // Retoma a música que estava tocando
+        if (SistemaMusica.Instance != null)
+            SistemaMusica.Instance.RetomarMusica();
     }
 }
