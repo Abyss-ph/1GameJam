@@ -26,4 +26,3 @@ public class Bala : MonoBehaviour
         transform.Translate(transform.up * speed * Time.fixedDeltaTime, Space.World);
     }
 }
-

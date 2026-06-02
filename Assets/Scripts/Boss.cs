@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; // Necessário para acessar o Slider
+using UnityEngine.UI;
 
 public class Boss : MonoBehaviour
 {
@@ -12,11 +12,11 @@ public class Boss : MonoBehaviour
     public float danoAoPlayer = 20f;
 
     [Header("Elementos de UI")]
-    public Slider barraDeVida; // A barra de vida que ficará na tela
+    public Slider barraDeVida;
 
     [Header("Mecânica de Spawn")]
     public float tempoDeSpawn = 5f;
-    public GameObject[] minionsPrefabs; // Arraste os prefabs de jogadores/torcedores aqui
+    public GameObject[] minionsPrefabs;
 
     private Transform target;
     private Rigidbody2D rb;
@@ -29,7 +29,6 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
-        // 1. Configura a vida e a UI
         vidaAtual = vidaMaxima;
         if (barraDeVida != null)
         {
@@ -37,20 +36,17 @@ public class Boss : MonoBehaviour
             barraDeVida.value = vidaAtual;
         }
 
-        // 2. Procura pelo Player
         GameObject player = GameObject.Find("Player");
         if (player != null)
         {
             target = player.transform;
         }
 
-        // 3. Inicia a rotina de invocar os ajudantes
         StartCoroutine(SpawnHelpersRoutine());
     }
 
     void Update()
     {
-        // Mira na direção do player (se o jogo não estiver pausado)
         if (target && !PauseManager.GameIsPaused)
         {
             Vector3 direction = (target.position - transform.position).normalized;
@@ -66,30 +62,24 @@ public class Boss : MonoBehaviour
         }
         else
         {
-            rb.linearVelocity = Vector2.zero; // Para de mover se pausar ou player sumir
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
-    // Coroutine que cria os inimigos a cada 5 segundos
     private IEnumerator SpawnHelpersRoutine()
     {
-        while (true) // Loop contínuo enquanto o boss estiver vivo
+        while (true)
         {
             yield return new WaitForSeconds(tempoDeSpawn);
 
-            // Só spawna se o jogo não estiver pausado e houver prefabs na lista
             if (!PauseManager.GameIsPaused && minionsPrefabs.Length > 0)
             {
-                // Sorteia um ajudante da lista
                 int randomIndex = Random.Range(0, minionsPrefabs.Length);
                 GameObject lacaioEscolhido = minionsPrefabs[randomIndex];
 
-                // TRAVA DE SEGURANÇA: Só cria o lacaio se o espaço não estiver vazio no Inspector
                 if (lacaioEscolhido != null)
                 {
-                    // Sorteia uma posição um pouco em volta do boss (para não nascer dentro dele)
                     Vector3 offsetSpawn = new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0);
-
                     Instantiate(lacaioEscolhido, transform.position + offsetSpawn, Quaternion.identity);
                 }
                 else
@@ -105,7 +95,16 @@ public class Boss : MonoBehaviour
         // Verifica se o Boss tomou um tiro
         if (collision.gameObject.CompareTag(tagAgressor))
         {
-            TakeDamage(15); // Pode ajustar o dano recebido aqui
+            // --- CORREÇÃO: lê o dano direto do script da Bala, igual ao Enemy.cs ---
+            float danoRecebido = 15f; // valor de segurança caso a bala não tenha o script
+            Bala scriptBala = collision.gameObject.GetComponent<Bala>();
+
+            if (scriptBala != null)
+            {
+                danoRecebido = scriptBala.danoDaBala; // Pega o dano real (pode ser 167 no Modo Deus!)
+            }
+
+            TakeDamage(danoRecebido);
         }
 
         // Verifica se o Boss encostou no Player
@@ -123,7 +122,6 @@ public class Boss : MonoBehaviour
     {
         vidaAtual -= damageAmount;
 
-        // Atualiza a barra de vida na tela
         if (barraDeVida != null)
         {
             barraDeVida.value = vidaAtual;
@@ -137,13 +135,11 @@ public class Boss : MonoBehaviour
 
     void Die()
     {
-        // Desliga a barra de vida do boss quando ele morre
         if (barraDeVida != null)
         {
             barraDeVida.gameObject.SetActive(false);
         }
 
-        // AVISA O QUEST MANAGER DO BOSS QUE ELE FOI DERROTADO!
         if (QuestManagerBoss.Instance != null)
         {
             QuestManagerBoss.Instance.BossDerrotado();
