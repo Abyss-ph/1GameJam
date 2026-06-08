@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
  
 public class SistemaMusica : MonoBehaviour
 {
@@ -9,18 +10,31 @@ public class SistemaMusica : MonoBehaviour
     [SerializeField] AudioSource sourceFase;
     [SerializeField] AudioSource sourcePoder;
  
-    [Header("Músicas")]
-    [SerializeField] AudioClip musicaFase;
+    [Header("Músicas por Cena")]
+    [Tooltip("Nome exato da cena de menu (deixe vazio para não tocar música)")]
+    public string nomeDoMenu = "Menu";
+ 
+    [Tooltip("Música da Fase 1")]
+    public AudioClip musicaFase1;
+ 
+    [Tooltip("Nome exato da cena da Fase 1")]
+    public string nomeFase1 = "Fase1";
+ 
+    [Tooltip("Música da Fase 2")]
+    public AudioClip musicaFase2;
+ 
+    [Tooltip("Nome exato da cena da Fase 2")]
+    public string nomeFase2 = "Fase2";
  
     // Indica se a música do poder está no controle agora
     private bool poderAtivo = false;
  
     void Awake()
     {
+        // Sem DontDestroyOnLoad: cada cena cria sua própria instância
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -31,14 +45,33 @@ public class SistemaMusica : MonoBehaviour
  
     void Start()
     {
-        sourceFase.clip = musicaFase;
+        string cenaAtual = SceneManager.GetActiveScene().name;
+ 
+        if (cenaAtual == nomeDoMenu)
+        {
+            // No menu: não toca nenhuma música (ou adicione uma musicaMenu se quiser)
+            sourceFase.Stop();
+            sourcePoder.Stop();
+        }
+        else if (cenaAtual == nomeFase1 && musicaFase1 != null)
+        {
+            IniciarMusicaFase(musicaFase1);
+        }
+        else if (cenaAtual == nomeFase2 && musicaFase2 != null)
+        {
+            IniciarMusicaFase(musicaFase2);
+        }
+    }
+ 
+    private void IniciarMusicaFase(AudioClip clip)
+    {
+        sourceFase.clip = clip;
         sourceFase.loop = true;
         sourceFase.Play();
     }
  
     // -------------------------------------------------------
     // Chamado pelo PassivaFase2 ao ativar o Modo Deus
-    // Recebe o AudioClip do poder direto da Passiva
     // -------------------------------------------------------
     public void AtivarMusicaPoder(AudioClip clipPoder)
     {
@@ -84,18 +117,20 @@ public class SistemaMusica : MonoBehaviour
  
     public void RetomarMusica()
     {
-        // Só retoma a fase se o poder não estiver no controle
         if (!poderAtivo)
             sourceFase.UnPause();
         else
             sourcePoder.UnPause();
     }
  
-    // Troca a música da fase (útil ao mudar de área)
-    public void TrocarMusicaFase(AudioClip novaMusica)
+    // -------------------------------------------------------
+    // Chamado pelo Menu.cs antes de trocar de cena
+    // -------------------------------------------------------
+    public void PararTudo()
     {
+        StopAllCoroutines();
         sourceFase.Stop();
-        sourceFase.clip = novaMusica;
-        sourceFase.Play();
+        sourcePoder.Stop();
+        poderAtivo = false;
     }
 }
