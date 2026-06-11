@@ -705,15 +705,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3dc22517eab4c4494563e19e2460e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
-  vidaMaxima: 100000
-  moveSpeed: 67
+  vidaMaxima: 1000
+  moveSpeed: 100
   tagAgressor: Power
-  danoAoPlayer: 30
+  danoAoPlayer: 50
   barraDeVida: {fileID: 1084242233}
-  tempoDeSpawn: 2
+  tempoDeSpawn: 5
   minionsPrefabs:
   - {fileID: 5849533964529636666, guid: 17407129fe0b9f14a9df0042c1a62c8a, type: 3}
   - {fileID: 6399478030480162981, guid: af28c67385617634db05c8729fafdf02, type: 3}
+  forcaKnockback: 15
+  duracaoStun: 0.09
+  forcaKnockbackNoPlayer: 5
+  duracaoStunColisao: 1
 --- !u!1 &313947942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,7 +1150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc52728d21b742040ba9600b517d521f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: "Assembly-CSharp::Movimenta\xE7\xE3o"
-  Speed: 110
+  Speed: 95
   limiarMovimento: 0.05
 --- !u!212 &455547377
 SpriteRenderer:
@@ -1238,7 +1242,7 @@ MonoBehaviour:
   chanceBase: 0.009
   tempoDeChecagem: 5
   duracaoAtiva: 40
-  danoNoModoDeus: 400
+  danoNoModoDeus: 35
   musicaModoDeus: {fileID: 8300000, guid: 3ef1bb566ffbd1c4ea5408db944cf3ce, type: 3}
   overlayFlash: {fileID: 557619324}
   particulasGloria: {fileID: 0}
@@ -4342,6 +4346,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1694621490}
   - component: {fileID: 1694621491}
+  - component: {fileID: 1694621492}
+  - component: {fileID: 1694621493}
   m_Layer: 0
   m_Name: Arma
   m_TagString: Untagged
@@ -4378,13 +4384,94 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SistemaArma
   srGun: {fileID: 1118740893}
-  tempoEntreTiros: 0.2
+  tempoEntreTiros: 0.5
   pontoDeFogo: {fileID: 588847766}
   tiro: {fileID: 5804984272652129725, guid: 304107dba9ac90a40ad3c549484a20e3, type: 3}
-  danoBase: 15
+  danoBase: 10
   multiplicadorDano: 1
   danoFixoOverwrite: 0
   animArma: {fileID: 0}
+--- !u!95 &1694621492
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694621489}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0080c1726b17f8641a8313e36bebbf39, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &1694621493
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694621489}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.5, y: 0.6875}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1730201274
 GameObject:
   m_ObjectHideFlags: 0

@@ -185,4 +185,8 @@ MonoBehaviour:
   TakeDamag: 12
   tagAgressor: Power
   vida: 100
+  forcaKnockback: 15
+  duracaoStun: 0.5
+  forcaKnockbackNoPlayer: 10
+  duracaoStunColisao: 0.3
   target: {fileID: 0}

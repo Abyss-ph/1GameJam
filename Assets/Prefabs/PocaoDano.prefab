@@ -182,5 +182,5 @@ MonoBehaviour:
   tipo: 1
   tempoDeVidaNoChao: 15
   valorDeCura: 35
-  multiplicador: 67
-  duracaoDoBuff: 67
+  multiplicador: 2
+  duracaoDoBuff: 8

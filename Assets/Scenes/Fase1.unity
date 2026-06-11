@@ -261,7 +261,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3941,7 +3943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8eb6a8413cedb459f23ea0f5566f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  metaDeAbates: 1
+  metaDeAbates: 25
   textoMissao: {fileID: 37117405}
   painelVitoria: {fileID: 286715375}
 --- !u!4 &1779154920
@@ -4139,6 +4141,7 @@ GameObject:
   - component: {fileID: 1913818327}
   - component: {fileID: 1913818326}
   - component: {fileID: 1913818328}
+  - component: {fileID: 1913818329}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4324,6 +4327,28 @@ MonoBehaviour:
   isImortal: 0
   barraDeVida: {fileID: 298349192}
   painelDerrota: {fileID: 1289102512}
+--- !u!95 &1913818329
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913818322}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91d353146fa3f654ab07bbd81b10dab1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1925632063
 GameObject:
   m_ObjectHideFlags: 0
